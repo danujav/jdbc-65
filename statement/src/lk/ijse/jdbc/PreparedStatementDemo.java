@@ -23,21 +23,22 @@ public class PreparedStatementDemo {
         //automatically JVM load this Driver to the Heap
 //        Class.forName("com.mysql.cj.jdbc.Driver");
 
+        // try-with-resource
+        try (Connection con = DriverManager.getConnection(URL, props)) {
+            String sql = "INSERT INTO Customer(id, name, address, salary)" +
+                    " VALUES (?, ?, ?, ?)";
 
-        Connection con = DriverManager.getConnection(URL, props);
-        String sql = "INSERT INTO Customer(id, name, address, salary)" +
-                " VALUES (?, ?, ?, ?)";
+            PreparedStatement pstm = con.prepareStatement(sql);
+            pstm.setString(1, id);
+            pstm.setString(2, name);
+            pstm.setString(3, address);
+            pstm.setDouble(4, salary);
 
-        PreparedStatement pstm = con.prepareStatement(sql);
-        pstm.setString(1, id);
-        pstm.setString(2, name);
-        pstm.setString(3, address);
-        pstm.setDouble(4, salary);
+            int affectedRows = pstm.executeUpdate();
+            System.out.println(affectedRows > 0 ? "customer added!" : "customer not added!");
 
-        int affectedRows = pstm.executeUpdate();
-        System.out.println(affectedRows > 0 ? "customer added!" : "customer not added!");
-
-        con.close();
+//            con.close();  //no more usefull
+        }
     }
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
