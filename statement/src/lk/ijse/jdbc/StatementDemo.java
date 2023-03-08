@@ -1,4 +1,6 @@
-package lk.ijse.jdbc;/*
+package lk.ijse.jdbc;
+
+/*
     @author DanujaV
     @created 3/8/23 - 2:04 PM   
 */
@@ -17,6 +19,7 @@ public class StatementDemo {
         props.setProperty("user", "root");
         props.setProperty("password", "Danu25412541@");
     }
+
     private static void insertCustomer() throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         Connection connection = DriverManager.getConnection(
@@ -48,14 +51,22 @@ public class StatementDemo {
         con.close();
     }
 
-    private static void updateCustomer() {
-        // UPDATE Customer SET name = \"Saman\", address = \"Galle\", salary = 10000 WHERE id = \"C001\""
+    private static void updateCustomer() throws ClassNotFoundException, SQLException {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection con = DriverManager.getConnection(URL, props);
+        Statement statement = con.createStatement();
+
+        String sql = "UPDATE Customer SET name = \"Saman\", address = \"Galle\", salary = 10000 WHERE id = \"C001\"";
+        int affectedRows = statement.executeUpdate(sql);
+
+        System.out.println("affectedRows: " + affectedRows);
+        System.out.println(affectedRows > 0 ? "customer updated!" : "customer not updated!");
     }
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
 //        insertCustomer();
 
-        deleteCustomer();
+//        deleteCustomer();
 
         updateCustomer();
     }
