@@ -5,10 +5,7 @@ package lk.ijse.jdbc;
     @created 3/8/23 - 3:34 PM   
 */
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Properties;
 
 public class PreparedStatementDemo {
@@ -41,10 +38,32 @@ public class PreparedStatementDemo {
         }
     }
 
+    private static void searchById(String id) throws SQLException {
+        try(Connection con = DriverManager.getConnection(URL, props)) {
+            String sql = "SELECT * FROM Customer WHERE id = ?";
+
+            PreparedStatement pstm = con.prepareStatement(sql);
+            pstm.setString(1, id);
+
+            ResultSet resultSet = pstm.executeQuery();
+            if(resultSet.next()) {
+                String cus_id = resultSet.getString(1);
+                String cus_name = resultSet.getString(2);
+                String cus_address = resultSet.getString(3);
+                double cus_salary = resultSet.getDouble(4);
+
+                System.out.println(cus_id + " - " + cus_name + " - " + cus_address + " - " + cus_salary);
+
+            }
+        }
+    }
+
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         String id = "C024", name = "Kasuni", address = "Jaffna";
         double salary = 25000;
 
         insertCustomer(id, name, address, salary);
+
+        searchById(id);
     }
 }
