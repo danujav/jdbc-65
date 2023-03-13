@@ -15,6 +15,7 @@ import lk.ijse.thogakade.dto.Item;
 import lk.ijse.thogakade.model.ItemModel;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public class ItemFormController {
     @FXML
@@ -117,5 +118,22 @@ public class ItemFormController {
             new Alert(Alert.AlertType.ERROR, "oops! something went wrong :(").show();
         }
 
+    }
+
+    public void btnGetAllOnAction(ActionEvent actionEvent) {
+        try {
+            List<Item> itemList = ItemModel.searchAll();
+
+            if (itemList != null) {
+                for (Item item : itemList) {
+                    System.out.println(item.getCode() + " - "
+                            + item.getDescription() + " - " + item.getUnitPrice() + " - " + item.getUnitPrice());
+                }
+            } else {
+                new Alert(Alert.AlertType.WARNING, "no any items found!").show();
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "oops! something went wrong!").show();
+        }
     }
 }

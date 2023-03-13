@@ -8,6 +8,8 @@ package lk.ijse.thogakade.model;
 import lk.ijse.thogakade.dto.Item;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 public class ItemModel {
@@ -80,6 +82,28 @@ public class ItemModel {
                 return new Item(item_code, item_description, item_unit_price, item_qty_on_hand);
             }
             return null;
+        }
+    }
+
+    public static List<Item> searchAll() throws SQLException {
+        try(Connection con = DriverManager.getConnection(URL, props)) {
+            String sql = "SELECT * FROM Item";
+
+            PreparedStatement pstm = con.prepareStatement(sql);
+            ResultSet resultSet = pstm.executeQuery();
+
+            List<Item> dataList = new ArrayList<>();
+
+            while (resultSet.next()) {
+                String item_code = resultSet.getString(1);
+                String item_description = resultSet.getString(2);
+                Double item_unit_price = resultSet.getDouble(3);
+                Integer item_qty_on_hand = resultSet.getInt(4);
+
+                var item = new Item(item_code, item_description, item_unit_price, item_qty_on_hand);
+                dataList.add(item);
+            }
+            return dataList;
         }
     }
 }

@@ -39,7 +39,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <JFXButton buttonType="RAISED" layoutX="303.0" layoutY="229.0" onAction="#btnClearOnAction" style="-fx-background-color: yellow;" text="Clear">
+      <JFXButton buttonType="RAISED" layoutX="292.0" layoutY="229.0" onAction="#btnGetAllOnAction" style="-fx-background-color: yellow;" text="Get All">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
