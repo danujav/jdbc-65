@@ -71,7 +71,7 @@ public class ItemFormController {
 
         try {
             boolean isSaved = ItemModel.save(code, description, unitPrice, qtyOnHand);
-            if(isSaved) {
+            if (isSaved) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Item saved!!!").show();
             }
         } catch (SQLException e) {
@@ -91,7 +91,7 @@ public class ItemFormController {
         try {
 //            boolean isUpdated = ItemModel.update(code, description, unitPrice, qtyOnHand);
             boolean isUpdated = ItemModel.update(item);
-            if(isUpdated) {
+            if (isUpdated) {
                 new Alert(Alert.AlertType.CONFIRMATION, "huree! Item Updated!").show();
             }
         } catch (SQLException e) {
@@ -102,6 +102,20 @@ public class ItemFormController {
 
     @FXML
     void codeSearchOnAction(ActionEvent event) {
+        String code = txtCode.getText();
+        try {
+            Item item = ItemModel.search(code);
+            if (item != null) {
+                txtCode.setText(item.getCode());
+                txtDescription.setText(item.getDescription());
+                txtUnitPrice.setText(String.valueOf(item.getUnitPrice()));
+                txtQtyOnHand.setText(String.valueOf(item.getQtyOnHand()));
+            } else {
+                new Alert(Alert.AlertType.WARNING, "no item found :(").show();
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "oops! something went wrong :(").show();
+        }
 
     }
 }

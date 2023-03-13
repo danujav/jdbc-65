@@ -7,10 +7,7 @@ package lk.ijse.thogakade.model;
 
 import lk.ijse.thogakade.dto.Item;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Properties;
 
 public class ItemModel {
@@ -64,5 +61,25 @@ public class ItemModel {
             return pstm.executeUpdate() > 0;
         }
 
+    }
+
+    public static Item search(String code) throws SQLException {
+        try(Connection con = DriverManager.getConnection(URL, props)) {
+            String sql = "SELECT * FROM Item WHERE code = ?";
+
+            PreparedStatement pstm = con.prepareStatement(sql);
+            pstm.setString(1, code);
+
+            ResultSet resultSet = pstm.executeQuery();
+            if(resultSet.next()) {
+                String item_code = resultSet.getString(1);
+                String item_description = resultSet.getString(2);
+                Double item_unit_price = Double.valueOf(resultSet.getDouble(3));
+                Integer item_qty_on_hand = Integer.valueOf(resultSet.getInt(4));
+
+                return new Item(item_code, item_description, item_unit_price, item_qty_on_hand);
+            }
+            return null;
+        }
     }
 }
