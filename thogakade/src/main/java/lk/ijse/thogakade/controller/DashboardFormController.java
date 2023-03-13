@@ -7,20 +7,37 @@ package lk.ijse.thogakade.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class DashboardFormController {
     @FXML
     private AnchorPane root;
 
     @FXML
-    void btnCustomerOnAction(ActionEvent event) {
+    void btnCustomerOnAction(ActionEvent event) throws IOException {
+        AnchorPane anchorPane = FXMLLoader.load(getClass().getResource("/view/customer_form.fxml"));
+        Scene scene = new Scene(anchorPane);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.setTitle("Customer Manage");
 
+        stage.show();
     }
 
     @FXML
-    void btnItemOnAction(ActionEvent event) {
+    void btnItemOnAction(ActionEvent event) throws IOException {
+        AnchorPane anchorPane = FXMLLoader.load(getClass().getResource("/view/item_form.fxml"));
+        Scene scene = new Scene(anchorPane);
 
+        Stage stage = (Stage) root.getScene().getWindow();
+        stage.setScene(scene);
+        stage.setTitle("Item Manage");
+        stage.centerOnScreen();
     }
 
     @FXML
