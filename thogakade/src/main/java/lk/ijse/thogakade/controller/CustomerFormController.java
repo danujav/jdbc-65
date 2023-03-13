@@ -65,8 +65,17 @@ public class CustomerFormController {
     }
 
     @FXML
-    void btnDeleteOnAction(ActionEvent event) {
+    void btnDeleteOnAction(ActionEvent event) throws SQLException {
+        try (Connection con = DriverManager.getConnection(URL, props)) {
+            String sql = "DELETE FROM Customer WHERE id = ?";
 
+            PreparedStatement pstm = con.prepareStatement(sql);
+            pstm.setString(1, txtId.getText());
+
+            if(pstm.executeUpdate() > 0 ) {
+                new Alert(Alert.AlertType.CONFIRMATION, "Huree!! deleted :)").show();
+            }
+        }
     }
 
     @FXML
