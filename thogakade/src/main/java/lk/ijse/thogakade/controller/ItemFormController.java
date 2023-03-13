@@ -11,6 +11,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.thogakade.dto.Item;
 import lk.ijse.thogakade.model.ItemModel;
 
 import java.sql.SQLException;
@@ -80,6 +81,22 @@ public class ItemFormController {
 
     @FXML
     void btnUpdateOnAction(ActionEvent event) {
+        String code = txtCode.getText();
+        String description = txtDescription.getText();
+        double unitPrice = Double.parseDouble(txtUnitPrice.getText());
+        int qtyOnHand = Integer.parseInt(txtQtyOnHand.getText());
+
+        var item = new Item(code, description, unitPrice, qtyOnHand);   //type inference
+
+        try {
+//            boolean isUpdated = ItemModel.update(code, description, unitPrice, qtyOnHand);
+            boolean isUpdated = ItemModel.update(item);
+            if(isUpdated) {
+                new Alert(Alert.AlertType.CONFIRMATION, "huree! Item Updated!").show();
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "oops! something happened!").show();
+        }
 
     }
 

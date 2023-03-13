@@ -5,6 +5,8 @@ package lk.ijse.thogakade.model;
     @created 3/13/23 - 11:48 AM   
 */
 
+import lk.ijse.thogakade.dto.Item;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -35,5 +37,32 @@ public class ItemModel {
                 return false;
             }
         }
+    }
+
+    /*public static boolean update(String code, String description, double unitPrice, int qtyOnHand) throws SQLException {
+        try(Connection con = DriverManager.getConnection(URL, props)) {
+            String sql = "UPDATE Item SET description = ?, unitPrice = ?, qtyOnHand = ? WHERE code = ?";
+            PreparedStatement pstm = con.prepareStatement(sql);
+            pstm.setString(1, description);
+            pstm.setDouble(2, unitPrice);
+            pstm.setInt(3, qtyOnHand);
+            pstm.setString(4, code);
+
+            return pstm.executeUpdate() > 0;
+        }
+
+    }*/
+    public static boolean update(Item item) throws SQLException {
+        try(Connection con = DriverManager.getConnection(URL, props)) {
+            String sql = "UPDATE Item SET description = ?, unitPrice = ?, qtyOnHand = ? WHERE code = ?";
+            PreparedStatement pstm = con.prepareStatement(sql);
+            pstm.setString(1, item.getDescription());
+            pstm.setDouble(2, item.getUnitPrice());
+            pstm.setInt(3, item.getQtyOnHand());
+            pstm.setString(4, item.getCode());
+
+            return pstm.executeUpdate() > 0;
+        }
+
     }
 }
