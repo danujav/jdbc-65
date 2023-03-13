@@ -5,6 +5,7 @@ package lk.ijse.thogakade.model;
     @created 3/13/23 - 11:48 AM   
 */
 
+import lk.ijse.thogakade.db.DBConnection;
 import lk.ijse.thogakade.dto.Item;
 
 import java.sql.*;
@@ -62,7 +63,6 @@ public class ItemModel {
 
             return pstm.executeUpdate() > 0;
         }
-
     }
 
     public static Item search(String code) throws SQLException {
@@ -104,6 +104,17 @@ public class ItemModel {
                 dataList.add(item);
             }
             return dataList;
+        }
+    }
+
+    public static boolean delete(String code) throws SQLException {
+        try (Connection con = DBConnection.getInstance().getConnection()) {
+            String sql = "DELETE FROM Item WHERE code = ?";
+
+            PreparedStatement pstm = con.prepareStatement(sql);
+            pstm.setString(1, code);
+
+            return pstm.executeUpdate() > 0;
         }
     }
 }

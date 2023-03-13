@@ -60,7 +60,16 @@ public class ItemFormController {
 
     @FXML
     void btnDeleteOnAction(ActionEvent event) {
+        String code = txtCode.getText();
 
+        try {
+            boolean isDeleted = ItemModel.delete(code);
+            if(isDeleted) {
+                new Alert(Alert.AlertType.CONFIRMATION, "Item deleted !").show();
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "something happened !").show();
+        }
     }
 
     @FXML
