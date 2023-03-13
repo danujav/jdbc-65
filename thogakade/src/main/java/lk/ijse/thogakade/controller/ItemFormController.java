@@ -7,13 +7,17 @@ package lk.ijse.thogakade.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import lk.ijse.thogakade.dto.Item;
 import lk.ijse.thogakade.model.ItemModel;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -49,8 +53,13 @@ public class ItemFormController {
     private TextField txtUnitPrice;
 
     @FXML
-    void btnBackOnAction(ActionEvent event) {
+    void btnBackOnAction(ActionEvent event) throws IOException {
+        AnchorPane anchorPane = FXMLLoader.load(getClass().getResource("/view/dashboard_form.fxml"));
+        Stage stage = (Stage) root.getScene().getWindow();
 
+        stage.setScene(new Scene(anchorPane));
+        stage.setTitle("Dashboard");
+        stage.centerOnScreen();
     }
 
     @FXML
