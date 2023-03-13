@@ -1,4 +1,4 @@
-package lk.ijse.thogakade.controller;
+package lk.ijse.thogakade;
 
 /*
     @author DanujaV
