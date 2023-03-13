@@ -74,8 +74,8 @@ public class ItemModel {
             if(resultSet.next()) {
                 String item_code = resultSet.getString(1);
                 String item_description = resultSet.getString(2);
-                Double item_unit_price = Double.valueOf(resultSet.getDouble(3));
-                Integer item_qty_on_hand = Integer.valueOf(resultSet.getInt(4));
+                Double item_unit_price = resultSet.getDouble(3);
+                Integer item_qty_on_hand = resultSet.getInt(4);
 
                 return new Item(item_code, item_description, item_unit_price, item_qty_on_hand);
             }
