@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>lk.ijse</groupId>
-    <artifactId>javafx-jdbc-maven</artifactId>
+    <artifactId>03-javafx-jdbc-maven</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
