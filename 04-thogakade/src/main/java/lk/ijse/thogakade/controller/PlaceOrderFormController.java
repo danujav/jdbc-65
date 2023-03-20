@@ -15,10 +15,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lk.ijse.thogakade.dto.Customer;
 import lk.ijse.thogakade.dto.Item;
+import lk.ijse.thogakade.dto.tm.PlaceOrderTM;
 import lk.ijse.thogakade.model.CustomerModel;
 import lk.ijse.thogakade.model.ItemModel;
 import lk.ijse.thogakade.model.OrderModel;
@@ -77,13 +79,14 @@ public class PlaceOrderFormController implements Initializable {
     private AnchorPane pane;
 
     @FXML
-    private TableView tblOrderCart;
+    private TableView<PlaceOrderTM> tblOrderCart;
 
     @FXML
     private TextField txtQty;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        setCellValueFactory();
         setOrderDate();
         loadCustomerIds();
         loadItemCodes();
@@ -136,9 +139,28 @@ public class PlaceOrderFormController implements Initializable {
 
     @FXML
     void btnAddToCartOnAction(ActionEvent event) {
+        String code = cmbItemCode.getValue();
+        String description = lblDescription.getText();
+        int qty = Integer.parseInt(txtQty.getText());
+        double unitPrice = Double.parseDouble(lblUnitPrice.getText());
+        double total = qty * unitPrice;
+        Button btn = new Button("Remove");
 
+        PlaceOrderTM tm = new PlaceOrderTM(code, description, qty, unitPrice, total, btn);
+        ObservableList<PlaceOrderTM> obList = FXCollections.observableArrayList();
+
+        obList.add(tm);
+        tblOrderCart.setItems(obList);
     }
 
+    void setCellValueFactory() {
+        colItemCode.setCellValueFactory(new PropertyValueFactory<>("code"));
+        colDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
+        colQty.setCellValueFactory(new PropertyValueFactory<>("qty"));
+        colUnitPrice.setCellValueFactory(new PropertyValueFactory<>("unitPrice"));
+        colTotal.setCellValueFactory(new PropertyValueFactory<>("total"));
+        colAction.setCellValueFactory(new PropertyValueFactory<>("btn"));
+    }
     @FXML
     void btnBackOnAction(ActionEvent event) throws IOException {
         Parent anchorPane =  FXMLLoader.load(getClass().getResource("/view/dashboard_form.fxml"));
