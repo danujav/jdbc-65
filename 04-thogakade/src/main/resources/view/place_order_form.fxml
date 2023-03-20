@@ -44,7 +44,7 @@
                 <Font name="System Bold" size="15.0" />
             </font>
         </Label>
-        <JFXComboBox fx:id="cmbCustomerId" layoutX="139.0" layoutY="105.0" prefHeight="33.0" prefWidth="203.0" />
+        <JFXComboBox fx:id="cmbCustomerId" layoutX="139.0" layoutY="105.0" onAction="#cmbCustomerOnAction" prefHeight="33.0" prefWidth="203.0" />
         <Label layoutX="474.0" layoutY="119.0" text="Customer Name:">
             <font>
                 <Font name="System Bold" size="15.0" />

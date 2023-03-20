@@ -47,7 +47,7 @@ public class DashboardFormController {
 
         Stage stage = (Stage) root.getScene().getWindow();
         stage.setScene(scene);
-        stage.setTitle("Item Manage");
+        stage.setTitle("Place Order");
         stage.centerOnScreen();
     }
 }
