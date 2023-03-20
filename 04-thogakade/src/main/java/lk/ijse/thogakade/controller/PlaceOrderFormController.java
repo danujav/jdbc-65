@@ -84,6 +84,8 @@ public class PlaceOrderFormController implements Initializable {
     @FXML
     private TextField txtQty;
 
+    private ObservableList<PlaceOrderTM> obList = FXCollections.observableArrayList();
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setCellValueFactory();
@@ -107,7 +109,7 @@ public class PlaceOrderFormController implements Initializable {
             ObservableList<String> obList = FXCollections.observableArrayList();
             List<String> codes = ItemModel.getCodes();
 
-            for(String code : codes) {
+            for (String code : codes) {
                 obList.add(code);
             }
             cmbItemCode.setItems(obList);
@@ -146,11 +148,27 @@ public class PlaceOrderFormController implements Initializable {
         double total = qty * unitPrice;
         Button btn = new Button("Remove");
 
+        if(!obList.isEmpty()) {
+            for (int i = 0; i < tblOrderCart.getItems().size(); i++) {
+                if(colItemCode.getCellData(i).equals(code)) {
+                    qty += (int)colQty.getCellData(i);
+                    total = qty * unitPrice;
+
+                    obList.get(i).setQty(qty);
+                    obList.get(i).setTotal(total);
+
+                    tblOrderCart.refresh();
+                    return;
+                }
+            }
+        }
+
         PlaceOrderTM tm = new PlaceOrderTM(code, description, qty, unitPrice, total, btn);
-        ObservableList<PlaceOrderTM> obList = FXCollections.observableArrayList();
 
         obList.add(tm);
         tblOrderCart.setItems(obList);
+
+        txtQty.setText("");
     }
 
     void setCellValueFactory() {
@@ -161,9 +179,10 @@ public class PlaceOrderFormController implements Initializable {
         colTotal.setCellValueFactory(new PropertyValueFactory<>("total"));
         colAction.setCellValueFactory(new PropertyValueFactory<>("btn"));
     }
+
     @FXML
     void btnBackOnAction(ActionEvent event) throws IOException {
-        Parent anchorPane =  FXMLLoader.load(getClass().getResource("/view/dashboard_form.fxml"));
+        Parent anchorPane = FXMLLoader.load(getClass().getResource("/view/dashboard_form.fxml"));
         Stage stage = (Stage) pane.getScene().getWindow();
 
         stage.setScene(new Scene(anchorPane));
@@ -216,6 +235,6 @@ public class PlaceOrderFormController implements Initializable {
 
     @FXML
     void txtQtyOnAction(ActionEvent event) {
-
+        btnAddToCartOnAction(event);
     }
 }
