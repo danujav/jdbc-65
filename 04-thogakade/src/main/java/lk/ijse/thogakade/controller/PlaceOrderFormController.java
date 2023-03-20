@@ -10,14 +10,20 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import lk.ijse.thogakade.dto.Customer;
 import lk.ijse.thogakade.dto.Item;
 import lk.ijse.thogakade.model.CustomerModel;
 import lk.ijse.thogakade.model.ItemModel;
+import lk.ijse.thogakade.model.OrderModel;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -81,6 +87,16 @@ public class PlaceOrderFormController implements Initializable {
         setOrderDate();
         loadCustomerIds();
         loadItemCodes();
+        generateNextOrderId();
+    }
+
+    private void generateNextOrderId() {
+        try {
+            String nextId = OrderModel.generateNextOrderId();
+            lblOrderId.setText(nextId);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void loadItemCodes() {
@@ -124,8 +140,13 @@ public class PlaceOrderFormController implements Initializable {
     }
 
     @FXML
-    void btnBackOnAction(ActionEvent event) {
+    void btnBackOnAction(ActionEvent event) throws IOException {
+        Parent anchorPane =  FXMLLoader.load(getClass().getResource("/view/dashboard_form.fxml"));
+        Stage stage = (Stage) pane.getScene().getWindow();
 
+        stage.setScene(new Scene(anchorPane));
+        stage.setTitle("Dashboard");
+        stage.centerOnScreen();
     }
 
     @FXML
