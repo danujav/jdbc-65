@@ -144,7 +144,7 @@ public class PlaceOrderFormController implements Initializable {
 
         try {
             Item item = ItemModel.searchById(code);
-            fillItemFileds(item);
+            fillItemFields(item);
             txtQty.requestFocus();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -153,7 +153,7 @@ public class PlaceOrderFormController implements Initializable {
 
     }
 
-    private void fillItemFileds(Item item) {
+    private void fillItemFields(Item item) {
         lblDescription.setText(item.getDescription());
         lblUnitPrice.setText(String.valueOf(item.getUnitPrice()));
         lblQtyOnHand.setText(String.valueOf(item.getQtyOnHand()));
