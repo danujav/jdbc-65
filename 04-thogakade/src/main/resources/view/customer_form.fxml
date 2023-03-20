@@ -52,10 +52,9 @@
       <TableView layoutX="23.0" layoutY="273.0" prefHeight="200.0" prefWidth="564.0">
         <columns>
           <TableColumn fx:id="colId" prefWidth="75.0" text="ID" />
-          <TableColumn fx:id="colName" prefWidth="183.0" text="Name" />
-            <TableColumn fx:id="colAddress" prefWidth="142.0" text="Address" />
-            <TableColumn fx:id="colSalary" prefWidth="86.0" text="Salary" />
-            <TableColumn fx:id="colAction" prefWidth="77.0" text="Action" />
+          <TableColumn fx:id="colName" prefWidth="225.0" text="Name" />
+            <TableColumn fx:id="colAddress" prefWidth="149.0" text="Address" />
+            <TableColumn fx:id="colSalary" prefWidth="114.0" text="Salary" />
         </columns>
       </TableView>
     </children>

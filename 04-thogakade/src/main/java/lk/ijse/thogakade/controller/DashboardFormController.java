@@ -22,11 +22,11 @@ public class DashboardFormController {
     void btnCustomerOnAction(ActionEvent event) throws IOException {
         AnchorPane anchorPane = FXMLLoader.load(getClass().getResource("/view/customer_form.fxml"));
         Scene scene = new Scene(anchorPane);
-        Stage stage = new Stage();
+        Stage stage = (Stage) root.getScene().getWindow();
         stage.setScene(scene);
         stage.setTitle("Customer Manage");
+        stage.centerOnScreen();
 
-        stage.show();
     }
 
     @FXML

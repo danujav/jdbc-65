@@ -7,15 +7,26 @@ package lk.ijse.thogakade.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+import lk.ijse.thogakade.dto.Customer;
+import lk.ijse.thogakade.model.CustomerModel;
 
+import java.io.IOException;
+import java.net.URL;
 import java.sql.*;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
+import java.util.ResourceBundle;
 
-public class CustomerFormController {
+public class CustomerFormController implements Initializable {
     private final static String URL = "jdbc:mysql://localhost:3306/ThogaKade";
     private final static Properties props = new Properties();
 
@@ -54,14 +65,37 @@ public class CustomerFormController {
     @FXML
     private TextField txtSalary;
 
-    @FXML
-    void btnBackOnAction(ActionEvent event) {
+    @Override
+    public void initialize(java.net.URL url, ResourceBundle resourceBundle) {
+        getAll();
+    }
 
+    void getAll() {
+        try {
+            List<Customer> cusList = CustomerModel.getAll();
+
+            for(Customer customer : cusList) {
+                System.out.println(customer.getId() + " - " + customer.getName() + " - " +
+                        customer.getAddress() + " - " + customer.getSalary());
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Query error!").show();
+        }
+    }
+
+    @FXML
+    void btnBackOnAction(ActionEvent event) throws IOException {
+        AnchorPane anchorPane = FXMLLoader.load(getClass().getResource("/view/dashboard_form.fxml"));
+        Stage stage = (Stage) root.getScene().getWindow();
+
+        stage.setScene(new Scene(anchorPane));
+        stage.setTitle("Dashboard");
+        stage.centerOnScreen();
     }
 
     @FXML
     void btnClearOnAction(ActionEvent event) {
-
     }
 
     @FXML
@@ -148,5 +182,4 @@ public class CustomerFormController {
             }
         }
     }
-
 }
