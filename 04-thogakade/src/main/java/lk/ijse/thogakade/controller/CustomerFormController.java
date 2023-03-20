@@ -5,6 +5,8 @@ package lk.ijse.thogakade.controller;
     @created 3/13/23 - 9:40 AM   
 */
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,10 +14,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lk.ijse.thogakade.dto.Customer;
+import lk.ijse.thogakade.dto.tm.CustomerTM;
 import lk.ijse.thogakade.model.CustomerModel;
 
 import java.io.IOException;
@@ -34,6 +39,8 @@ public class CustomerFormController implements Initializable {
         props.setProperty("user", "root");
         props.setProperty("password", "Danu25412541@");
     }
+
+    public TableView<CustomerTM> tblCustomer;
 
     @FXML
     private TableColumn<?, ?> colAction;
@@ -67,17 +74,30 @@ public class CustomerFormController implements Initializable {
 
     @Override
     public void initialize(java.net.URL url, ResourceBundle resourceBundle) {
+        setCellValueFactory();
         getAll();
+    }
+    void setCellValueFactory() {
+        colId.setCellValueFactory(new PropertyValueFactory<>("Id"));
+        colName.setCellValueFactory(new PropertyValueFactory<>("Name"));
+        colAddress.setCellValueFactory(new PropertyValueFactory<>("Address"));
+        colSalary.setCellValueFactory(new PropertyValueFactory<>("Salary"));
     }
 
     void getAll() {
         try {
+            ObservableList<CustomerTM> obList = FXCollections.observableArrayList();
             List<Customer> cusList = CustomerModel.getAll();
 
             for(Customer customer : cusList) {
-                System.out.println(customer.getId() + " - " + customer.getName() + " - " +
-                        customer.getAddress() + " - " + customer.getSalary());
+                obList.add(new CustomerTM(
+                        customer.getId(),
+                        customer.getName(),
+                        customer.getAddress(),
+                        customer.getSalary()
+                ));
             }
+            tblCustomer.setItems(obList);
         } catch (SQLException e) {
             e.printStackTrace();
             new Alert(Alert.AlertType.ERROR, "Query error!").show();
