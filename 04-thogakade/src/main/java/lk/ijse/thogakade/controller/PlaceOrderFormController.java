@@ -14,7 +14,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import lk.ijse.thogakade.dto.Customer;
+import lk.ijse.thogakade.dto.Item;
 import lk.ijse.thogakade.model.CustomerModel;
+import lk.ijse.thogakade.model.ItemModel;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -27,7 +29,7 @@ public class PlaceOrderFormController implements Initializable {
     private JFXComboBox<String> cmbCustomerId;
 
     @FXML
-    private JFXComboBox<?> cmbItemCode;
+    private JFXComboBox<String> cmbItemCode;
 
     @FXML
     private TableColumn<?, ?> colAction;
@@ -78,6 +80,22 @@ public class PlaceOrderFormController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setOrderDate();
         loadCustomerIds();
+        loadItemCodes();
+    }
+
+    private void loadItemCodes() {
+        try {
+            ObservableList<String> obList = FXCollections.observableArrayList();
+            List<String> codes = ItemModel.getCodes();
+
+            for(String code : codes) {
+                obList.add(code);
+            }
+            cmbItemCode.setItems(obList);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "SQL Error!").show();
+        }
     }
 
     private void loadCustomerIds() {
@@ -122,8 +140,25 @@ public class PlaceOrderFormController implements Initializable {
 
     @FXML
     void cmbItemOnAction(ActionEvent event) {
+        String code = cmbItemCode.getSelectionModel().getSelectedItem();
+
+        try {
+            Item item = ItemModel.searchById(code);
+            fillItemFileds(item);
+            txtQty.requestFocus();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "SQL Error!").show();
+        }
 
     }
+
+    private void fillItemFileds(Item item) {
+        lblDescription.setText(item.getDescription());
+        lblUnitPrice.setText(String.valueOf(item.getUnitPrice()));
+        lblQtyOnHand.setText(String.valueOf(item.getQtyOnHand()));
+    }
+
     @FXML
     void cmbCustomerOnAction(ActionEvent event) {
         String cus_id = cmbCustomerId.getSelectionModel().getSelectedItem();

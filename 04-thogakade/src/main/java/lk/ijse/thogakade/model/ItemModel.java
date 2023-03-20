@@ -117,4 +117,36 @@ public class ItemModel {
             return pstm.executeUpdate() > 0;
         }
     }
+
+    public static List<String> getCodes() throws SQLException {
+        Connection con = DBConnection.getInstance().getConnection();
+
+        List<String> codes = new ArrayList<>();
+
+        String sql = "SELECT code FROM Item";
+        ResultSet resultSet = con.createStatement().executeQuery(sql);
+        while(resultSet.next()) {
+            codes.add(resultSet.getString(1));
+        }
+        return codes;
+    }
+
+    public static Item searchById(String code) throws SQLException {
+        Connection con = DBConnection.getInstance().getConnection();
+        String sql = "SELECT * FROM Item WHERE code = ?";
+
+        PreparedStatement pstm = con.prepareStatement(sql);
+        pstm.setString(1, code);
+
+        ResultSet resultSet = pstm.executeQuery();
+        if(resultSet.next()) {
+            return new Item(
+                    resultSet.getString(1),
+                    resultSet.getString(2),
+                    resultSet.getDouble(3),
+                    resultSet.getInt(4)
+            );
+        }
+        return null;
+    }
 }
