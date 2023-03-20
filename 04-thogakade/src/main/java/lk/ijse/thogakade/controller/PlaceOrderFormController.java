@@ -191,8 +191,15 @@ public class PlaceOrderFormController implements Initializable {
     }
 
     @FXML
-    void btnNewCustomerOnAction(ActionEvent event) {
+    void btnNewCustomerOnAction(ActionEvent event) throws IOException {
+        Parent anchorPane = FXMLLoader.load(getClass().getResource("/view/customer_form.fxml"));
+        Scene scene = new Scene(anchorPane);
 
+        Stage stage = new Stage();
+        stage.setTitle("Customer Manage");
+        stage.setScene(scene);
+        stage.centerOnScreen();
+        stage.show();
     }
 
     @FXML
