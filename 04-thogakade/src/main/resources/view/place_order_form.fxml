@@ -148,5 +148,15 @@
                 <Cursor fx:constant="HAND" />
             </cursor>
         </JFXButton>
+      <Label fx:id="lblNetTotal" layoutX="102.0" layoutY="512.0" textFill="#b51313">
+         <font>
+            <Font name="System Bold" size="22.0" />
+         </font>
+      </Label>
+      <Label layoutX="14.0" layoutY="516.0" text="Net Total:">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
     </children>
 </AnchorPane>
