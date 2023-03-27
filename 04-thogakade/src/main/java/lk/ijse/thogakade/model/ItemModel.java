@@ -6,6 +6,7 @@ package lk.ijse.thogakade.model;
 */
 
 import lk.ijse.thogakade.db.DBConnection;
+import lk.ijse.thogakade.dto.CartDTO;
 import lk.ijse.thogakade.dto.Item;
 
 import java.sql.*;
@@ -148,5 +149,25 @@ public class ItemModel {
             );
         }
         return null;
+    }
+
+    public static boolean updateQty(List<CartDTO> cartDTOList) throws SQLException {
+        for (CartDTO dto : cartDTOList) {
+            if(!updateQty(dto)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static boolean updateQty(CartDTO dto) throws SQLException {
+        Connection con = DBConnection.getInstance().getConnection();
+        String sql = "UPDATE Item SET qtyOnHand = (qtyOnHand - ?) WHERE code = ?";
+
+        PreparedStatement pstm = con.prepareStatement(sql);
+        pstm.setInt(1, dto.getQty());
+        pstm.setString(2, dto.getCode());
+
+        return pstm.executeUpdate() > 0;
     }
 }
